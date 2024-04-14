@@ -1,0 +1,67 @@
+﻿@model IEnumerable<WebbappLabb1EF.Models.LeaveRequest>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1 style="text-align: center; border: 1px solid white; width: 280px; margin: 0 auto; color: ghostwhite">Request Leave</h1>
+
+<p>
+    <a class="btn btn-primary" asp-action="Create">
+        <i class="bi bi-plus"></i> Create New
+    </a>
+</p>
+<table style="color: ghostwhite" class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.StartDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EndDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Note)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedAt)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Employee)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Leave)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EndDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Note)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedAt)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Employee.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Leave.TypeOfLeave)
+            </td>
+            <td>
+                    <a class="btn btn-primary btn-sm" asp-action="Edit" asp-route-id="@item.LeaveRequestId" title="Edit">Edit <i class="bi bi-pencil"></i></a> 
+                    <a class="btn btn-info btn-sm" asp-action="Details" asp-route-id="@item.LeaveRequestId" title="Details">Details <i class="bi bi-binoculars"></i></a> 
+                    <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@item.LeaveRequestId" title="Delete">Delete <i class="bi bi-trash"></i></a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

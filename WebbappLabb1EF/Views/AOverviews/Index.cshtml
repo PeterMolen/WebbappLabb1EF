@@ -1,0 +1,72 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    //Definiera ny Layout
+    Layout = "_Layout2";
+}
+<div class="row">
+    <div class="col-md-3">
+        <ul id="monthList" style="list-style-type: none;">
+            <h3 style="border: 1px solid white; padding: 5px; width: 200px; text-align: center; color: white;">Months</h3>
+            @foreach (var month in Model.Months)
+            {
+                <li style="margin-bottom: 5px;">
+                    <a href="#" class="btn btn-primary monthLink" style="width: 200px;" data-month="@month">@month</a>
+                </li>
+            }
+        </ul>
+    </div>
+    <div class="col-md-9">
+        <table style="color: ghostwhite" class="table" id="monthDetails">
+            <thead>
+                <tr>
+                    <th>Employee</th>
+                    <th>Leave request</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Created At</th>
+                </tr>
+            </thead>
+            <tbody>
+                <h1 style="text-align: center; border: 1px solid white; width: 220px; margin: 0 auto; color: white; text-align: center;">Full list</h1>
+                <p style="color: white; text-align: center;">for detailed list choose a month to the left</p>
+                @foreach (var overview in Model.Overviews)
+                {
+                    <tr class="monthRow" data-month="@overview.Month">
+                        <td>@overview.Name</td>
+                        <td>@overview.TypeOfLeave</td>
+                        <td>@overview.StartDate.ToShortDateString()</td>
+                        <td>@overview.EndDate.ToShortDateString()</td>
+                        <td>@overview.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            // Sort the month list alphabetically
+            var monthListItems = $("#monthList li").get();
+            monthListItems.sort(function (a, b) {
+                var textA = $(a).text().toUpperCase();
+                var textB = $(b).text().toUpperCase();
+                return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+            });
+            $.each(monthListItems, function (index, item) {
+                $("#monthList").append(item);
+            });
+
+            // Show employee details when clicked
+            $(".monthLink").click(function (e) {
+                e.preventDefault();
+                var month = $(this).data("month");
+                $(".monthRow").hide();
+                $(".monthRow[data-month='" + month + "']").show();
+            });
+        });
+    </script>
+}

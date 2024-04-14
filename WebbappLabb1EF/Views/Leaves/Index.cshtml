@@ -1,0 +1,36 @@
+﻿@model IEnumerable<WebbappLabb1EF.Models.Leave>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h3 style="border: 1px solid white; padding: 5px; width: 280px; text-align: center; margin: 0 auto; color:ghostwhite">Type of Leave</h3>
+
+<p>
+    <a class="btn btn-primary" asp-action="Create">
+        <i class="bi bi-plus"></i> Create New
+    </a>
+</p>
+<table style="color: ghostwhite" class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.TypeOfLeave)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.TypeOfLeave)
+            </td>
+            <td>
+                    <a class="btn btn-primary btn-sm" asp-action="Edit" asp-route-id="@item.LeaveId" title="Edit">Edit <i class="bi bi-pencil"></i></a>
+                    <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@item.LeaveId" title="Delete">Delete <i class="bi bi-trash"></i></a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

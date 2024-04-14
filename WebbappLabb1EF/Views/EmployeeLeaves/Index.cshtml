@@ -1,0 +1,110 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    //Definiera ny Layout
+    Layout = "_Layout2";
+}
+@* LeavesId *@
+@* <div class="row"> *@
+   @*  <div class="col-md-3">
+        <ul>
+            <h5>Type of leaves</h5>
+            @foreach(var leave in Model.Leaves)
+            {
+                <li>
+                    <a asp-action="Index" asp-route-leaveid="@leave.LeaveId">@leave.TypeOfLeave</a>
+                </li>
+            }
+        </ul>
+    </div>
+    <div class="col-md-9">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Employee</th>
+                    <th>Type of leave</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var employee in Model.Employees)
+                {
+                    <tr>
+                        <td>@employee.Name</td>
+                        <td>@employee.TypeOfLeave</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div> *@
+
+
+@* EmployeName *@
+<div class="row">
+    <div class="col-md-3">
+        <ul id="employeeList" style="list-style-type: none;">
+            <h3 style="border: 1px solid white; padding: 5px; width: 200px; text-align: center; color: white;">Employees</h3>
+            @foreach (var employee in Model.Employees)
+            { 
+                <li style="margin-bottom: 5px;">
+                    <a href="#" class=" btn btn-primary employeeLink" style="width: 200px;" data-employee="@employee.Name">@employee.Name</a>
+                </li>
+            }
+        </ul>
+    </div>
+    <div class="col-md-9">
+        <table style="color: ghostwhite" class="table" id="employeeDetails">
+            <thead>
+                <tr>
+                    <th>Employee</th>
+                    <th>Leave request</th>
+                </tr>
+            </thead>
+            @functions {
+                // Method to sort employees by name
+                IEnumerable<EmployeeWithLeave> SortEmployeesByName(IEnumerable<EmployeeWithLeave> employees)
+                {
+                    return employees.OrderBy(e => e.Name);
+                }
+            }
+
+            <tbody>
+                <h1 style="text-align: center; border: 1px solid white; width: 220px; margin: 0 auto; color: white; text-align: center;">Full list</h1>
+                <p style="color: white; text-align: center;">for detailed list choose a name to the left</p>
+                @foreach (var employee in SortEmployeesByName(Model.Employees))
+                {
+                    <tr style="color: ghostwhite" class="employeeRow" data-employee="@employee.Name">
+                        <td>@employee.Name</td>
+                        <td>@employee.TypeOfLeave</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+     </div>
+</div>
+
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            // Sort the employee list alphabetically
+            var employeeListItems = $("#employeeList li").get();
+            employeeListItems.sort(function (a, b) {
+                var textA = $(a).text().toUpperCase();
+                var textB = $(b).text().toUpperCase();
+                return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+            });
+            $.each(employeeListItems, function (index, item) {
+                $("#employeeList").append(item);
+            });
+
+            // Show employee details when clicked
+            $(".employeeLink").click(function (e) {
+                e.preventDefault();
+                var employeeName = $(this).data("employee");
+                $(".employeeRow").hide();
+                $(".employeeRow[data-employee='" + employeeName + "']").show();
+            });
+        });
+    </script>
+}

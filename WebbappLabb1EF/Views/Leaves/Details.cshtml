@@ -1,0 +1,26 @@
+﻿@model WebbappLabb1EF.Models.Leave
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Leave</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.TypeOfLeave)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.TypeOfLeave)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a class="btn btn-primary btn-sm" asp-action="Edit" asp-route-id="@Model?.LeaveId">Edit</a>
+    <a class="btn btn-warning btn-sm" asp-action="Index">
+        <i class="bi bi-backspace-fill"></i>  Back to List
+    </a>
+</div>
